@@ -87,33 +87,46 @@ def import_books(request):
         for book_index in range(len(parse_json["items"])):
             model = Book()
             model.title = parse_json["items"][book_index]["volumeInfo"]["title"]
-            authors = []
-            for author_index in range(
-                len(parse_json["items"][book_index]["volumeInfo"]["authors"])
-            ):
-                authors.append(
-                    parse_json["items"][book_index]["volumeInfo"]["authors"][
-                        author_index
-                    ]
-                )
 
-            model.author = ", ".join(authors)
-            date = parse_json["items"][book_index]["volumeInfo"]["publishedDate"]
-            model.published_date = int(date[0:4])
-            isbn = []
+            if "authors" in parse_json["items"][book_index]["volumeInfo"]:
+                authors = []
+                for author_index in range(
+                    len(parse_json["items"][book_index]["volumeInfo"]["authors"])
+                ):
+                    authors.append(
+                        parse_json["items"][book_index]["volumeInfo"]["authors"][
+                            author_index
+                        ]
+                    )
 
-            for isbn_index in range(
-                len(
-                    parse_json["items"][book_index]["volumeInfo"]["industryIdentifiers"]
-                )
-            ):
-                isbn.append(
-                    parse_json["items"][book_index]["volumeInfo"][
-                        "industryIdentifiers"
-                    ][isbn_index]["identifier"]
-                )
+                model.author = ", ".join(authors)
+            else:
+                model.author = "No information available"
 
-            model.isbn = ", ".join(isbn)
+            if "publishedDate" in parse_json["items"][book_index]["volumeInfo"]:
+                date = parse_json["items"][book_index]["volumeInfo"]["publishedDate"]
+                model.published_date = int(date[0:4])
+            else:
+                model.published_date = 0
+
+            if "industryIdentifiers" in parse_json["items"][book_index]["volumeInfo"]:
+                isbn = []
+                for isbn_index in range(
+                    len(
+                        parse_json["items"][book_index]["volumeInfo"][
+                            "industryIdentifiers"
+                        ]
+                    )
+                ):
+                    isbn.append(
+                        parse_json["items"][book_index]["volumeInfo"][
+                            "industryIdentifiers"
+                        ][isbn_index]["identifier"]
+                    )
+
+                model.isbn = ", ".join(isbn)
+            else:
+                model.pages = "No information available"
 
             if "pageCount" in parse_json["items"][book_index]["volumeInfo"]:
                 model.pages = parse_json["items"][book_index]["volumeInfo"]["pageCount"]
@@ -125,7 +138,7 @@ def import_books(request):
                     "imageLinks"
                 ]["thumbnail"]
             else:
-                model.cover_picture = "No link available"
+                model.cover_picture = "No information available"
 
             model.language = parse_json["items"][book_index]["volumeInfo"]["language"]
             model.save()
