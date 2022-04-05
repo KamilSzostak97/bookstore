@@ -9,7 +9,7 @@ from rest_framework import viewsets
 
 from bookstore.settings import GOOGLE_API_KEY
 
-from .forms import createbookform
+from .forms import CreateBookForm
 from .models import Book
 from .serializers import BookSerializer
 
@@ -48,16 +48,16 @@ def manage_books(request):
         instance = Book.objects.filter(isbn__icontains=requested_isbn).first()
 
         if instance is None:
-            error = ["Inputed ISBN dosent match any entry"]
+            error = ["Inputed ISBN doesn't match any entry"]
 
-        form = createbookform(request.POST or None, instance=instance)
+        form = CreateBookForm(request.POST or None, instance=instance)
         if form.is_valid():
             form.save()
             return redirect("/")
     else:
-        form = createbookform()
+        form = CreateBookForm()
         if request.method == "POST":
-            form = createbookform(request.POST)
+            form = CreateBookForm(request.POST)
             if form.is_valid():
                 form.save()
                 return redirect("/")

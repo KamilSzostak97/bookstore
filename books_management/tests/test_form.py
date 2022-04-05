@@ -1,11 +1,11 @@
 from django.test import TestCase
 
-from ..forms import createbookform
+from ..forms import CreateBookForm
 
 
 class CreateBookFormTest(TestCase):
     def valid_form_test(self):
-        form = createbookform(
+        form = CreateBookForm(
             data={
                 "title": "title",
                 "author": "author",
@@ -19,7 +19,7 @@ class CreateBookFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
     def missing_field_form_test(self):
-        form = createbookform(
+        form = CreateBookForm(
             data={
                 "title": "title",
                 "author": "author",
@@ -31,7 +31,7 @@ class CreateBookFormTest(TestCase):
         self.assertFalse(form.is_valid())
 
     def inavlid_type_form_test(self):
-        form = createbookform(
+        form = CreateBookForm(
             data={
                 "title": "title",
                 "author": "author",
