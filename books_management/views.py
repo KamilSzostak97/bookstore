@@ -114,7 +114,11 @@ def import_books(request):
                 )
 
             model.isbn = ", ".join(isbn)
-            model.pages = parse_json["items"][book_index]["volumeInfo"]["pageCount"]
+
+            if "pageCount" in parse_json["items"][book_index]["volumeInfo"]:
+                model.pages = parse_json["items"][book_index]["volumeInfo"]["pageCount"]
+            else:
+                model.pages = 0
 
             if "imageLinks" in parse_json["items"][book_index]["volumeInfo"]:
                 model.cover_picture = parse_json["items"][book_index]["volumeInfo"][
