@@ -2,11 +2,8 @@
 views.py includes backend for boostore application
 """
 import json
-from email import message
-
 import requests
 from django.shortcuts import redirect, render
-from numpy import delete
 from rest_framework import viewsets
 
 from bookstore.settings import GOOGLE_API_KEY
