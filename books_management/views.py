@@ -2,9 +2,11 @@
 views.py includes backend for boostore application
 """
 import json
+from email import message
 
 import requests
 from django.shortcuts import redirect, render
+from numpy import delete
 from rest_framework import viewsets
 
 from bookstore.settings import GOOGLE_API_KEY
@@ -42,26 +44,35 @@ def home(request):
 
 def manage_books(request):
     """Add and edit books"""
-    error = []
+    message = []
+    form = CreateBookForm()
     if "isbn_search" in request.GET:
+        message = ["Leave blank to select first entry in database"]
         requested_isbn = request.GET["isbn_search"]
+
         instance = Book.objects.filter(isbn__icontains=requested_isbn).first()
 
         if instance is None:
-            error = ["Inputed ISBN doesn't match any entry"]
+            message = ["Inputed ISBN doesn't match any entry"]
+            return render(
+                request, "book/managebooks.html", {"form": form, "messages": message}
+            )
+
+        if request.GET["option_select"] == "delete":
+            instance.delete()
+            return redirect("/")
 
         form = CreateBookForm(request.POST or None, instance=instance)
         if form.is_valid():
             form.save()
             return redirect("/")
     else:
-        form = CreateBookForm()
         if request.method == "POST":
             form = CreateBookForm(request.POST)
             if form.is_valid():
                 form.save()
                 return redirect("/")
-    return render(request, "book/managebooks.html", {"form": form, "messages": error})
+    return render(request, "book/managebooks.html", {"form": form, "messages": message})
 
 
 def import_books(request):

@@ -11,6 +11,7 @@
     <form class="input" method="GET" action="">
         <select name="option_select" onchange="showbar(this)">
             <option value="add">Add new book</option>
+            <option value="delete">Delete book</option>
             <option value="edit">Edit existing book</option>
         </select>
         <div class="hidden" style="padding-top:5px;padding-bottom:5px;">
@@ -30,7 +31,7 @@
 
 <script type="text/javascript">
 	function showbar(select){
-		if(select.value=="edit"){
+		if(select.value=="edit" || select.value=="delete"){
 			document.getElementById('hidden_bar').style.display = "inline";
             document.getElementById('hidden_button').style.display = "inline";
 		} else{
