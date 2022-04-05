@@ -1,0 +1,16 @@
+{% extends 'book/main.html' %}
+{% load static%}
+{% block content %}
+<div class="container jumbotron">
+    <h5>Rest API with query set</h5>
+    <form class="input" method="GET" action="" >
+        <input class="search-bar" type="search" name="search">
+        <select name="filterby" id="import-criteria">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="isbn">ISBN</option>
+        </select>
+        <button class="search-button" type="submit"> Search </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'book/main.html' %}
+{% load static%}
+{% block content %}
+<div class="container jumbotron">
+    <h5>Import books from Google Books API</h5>
+    <form class="input" method="GET" action="" >
+        <input class="search-bar" type="search" name="import">
+        <select name="filterby" id="import-criteria">
+            <option value="intitle">Title</option>
+            <option value="inauthor">Author</option>
+            <option value="isbn">ISBN</option>
+        </select>
+        <button class="search-button" type="submit"> Search </button>
+        <p>{{message}}</p>
+    </form>
+</div>
+{% endblock %}
