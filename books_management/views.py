@@ -136,7 +136,7 @@ def rest_api(request):
 
     if "search" in request.GET:
         search_value = request.GET["search"]
-        return redirect(f"/book/?search={search_value}&filterby={filter_category}")
+        return redirect(f"/book/?search={search_value}&filterby={filter_category}&format=json")
     return render(request, "book/rest.html")
 
 
