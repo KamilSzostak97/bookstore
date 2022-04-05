@@ -4,7 +4,7 @@ from ..forms import CreateBookForm
 
 
 class CreateBookFormTest(TestCase):
-    def valid_form_test(self):
+    def test_valid_form(self):
         form = CreateBookForm(
             data={
                 "title": "title",
@@ -18,7 +18,7 @@ class CreateBookFormTest(TestCase):
         )
         self.assertTrue(form.is_valid())
 
-    def missing_field_form_test(self):
+    def test_missing_field_form(self):
         form = CreateBookForm(
             data={
                 "title": "title",
@@ -30,7 +30,7 @@ class CreateBookFormTest(TestCase):
         )
         self.assertFalse(form.is_valid())
 
-    def inavlid_type_form_test(self):
+    def test_inavlid_type_form(self):
         form = CreateBookForm(
             data={
                 "title": "title",
